@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: pms-service
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848 # nacos端口号
+        namespace: 74b8b570-a106-4130-9dbe-4930f1214ef7 # 命名空间的UUID
+        group: dev # 分组
+        file-extension: yml # 文件后缀
+
+

@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: ums-service
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848 # nacos端口号
+        namespace: 1da2413e-87b4-46d2-a77f-c0c262894367 # 命名空间的UUID
+        group: dev # 分组
+        file-extension: yml # 文件后缀
+
+
