@@ -20,6 +20,10 @@ spring:
   elasticsearch:
     rest:
       uris: http://192.168.61.130:9200
+  jackson:
+    default-property-inclusion: non_null # DSL语句中不包含空的字段
+  thymeleaf:
+    cache: false
 feign: # 远程调用
   sentinel:
     enabled: true # 开启feign的sentinel的支持
