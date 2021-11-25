@@ -49,4 +49,7 @@ public class WareSkuEntity implements Serializable {
 	 */
 	private Long sales;
 
+//	private Integer count;
+
+
 }

@@ -20,7 +20,10 @@ public class SearchController {
     public String search(SearchParamVo paramVo, Model model){
 
         SearchResponseVo responseVo = this.searchService.search(paramVo);
-        model.addAttribute("",responseVo);
+        //响应数据
+        model.addAttribute("response",responseVo);
+        //查询条件
+        model.addAttribute("searchParam",paramVo);
 
         return "search";
     }

@@ -38,3 +38,6 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto # id策略默认是分布式  auto表示自增策略
+logging:
+  level:
+    com.atguigu.gmall.ums: info

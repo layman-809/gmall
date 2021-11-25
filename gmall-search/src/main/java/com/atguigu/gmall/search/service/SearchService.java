@@ -295,9 +295,9 @@ public class SearchService {
                         .subAggregation(AggregationBuilders.terms("attrValueAgg").field("searchAttrs.attrValue"))));
 
         //6、结果集过滤
-        sourceBuilder.fetchSource(new String[]{"skuId","title","subtitle","price","defaultImage"},null);
+//        sourceBuilder.fetchSource(new String[]{"skuId","title","subtitle","price","defaultImage"},null);
         System.out.println(sourceBuilder);
         return sourceBuilder;
     }
 }
-//http://localhost:18086/search?keyword=%E6%89%8B%E6%9C%BA&brandId=1,2&categoryId=225&priceFrom=1000&store=false&props=4:8G-12G&sort=1&pageNum=1
+//http://localhost:18086/search?keyword=%E6%89%8B%E6%9C%BA&brandId=1&categoryId=225&priceFrom=1000&store=false&props=4:8G-12G&sort=1&pageNum=1

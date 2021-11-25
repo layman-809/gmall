@@ -22,6 +22,9 @@
         <module>gmall-sms-interface</module>
         <module>gmall-pms-interface</module>
         <module>gmall-wms-interface</module>
+        <module>gmall-ums-interface</module>
+        <module>gmall-cart-interface</module>
+        <module>gmall-oms-interface</module>
     </modules>
 
 
@@ -58,6 +61,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-thymeleaf</artifactId>
+
             </dependency>
             <dependency>
                 <groupId>org.redisson</groupId>

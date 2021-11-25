@@ -56,12 +56,12 @@
                     <!-- 点击x时，去掉地址栏中的品牌过滤条件 -->
                     <a th:href="@{${#strings.replace(location, '&brandId='+ #strings.arrayJoin(searchParam.brandId, ','), '')}}">×</a>
                 </li>
-                <li th:if="${not #lists.isEmpty(searchParam.cid)}" class="with-x">
+                <li th:if="${not #lists.isEmpty(searchParam.categoryId)}" class="with-x">
                     <span>分类：</span>
                     <!-- 分类也可以多选，多选时情况下分类名称以空格分割 -->
                     <span th:each="category : *{categories}" th:text="${category.name + ' '}"></span>
                     <!-- 点击x时，去掉地址栏中的分类过滤条件 -->
-                    <a th:href="@{${#strings.replace(location, '&cid='+ #strings.arrayJoin(searchParam.cid, ','), '')}}">×</a>
+                    <a th:href="@{${#strings.replace(location, '&categoryId='+ #strings.arrayJoin(searchParam.categoryId, ','), '')}}">×</a>
                 </li>
                 <li th:each="prop : ${searchParam.props}" class="with-x">
                     <!-- 规格参数的格式为“8:128G-256G”，这里获取“:”号后的规格参数展示 -->
@@ -79,7 +79,9 @@
         </div>
         <!--selector-->
         <div class="clearfix selector">
-            <!-- 品牌过滤：只有一个品牌或者已经选择了品牌时，不显示品牌过滤 -->
+            <!-- 品牌过滤：只有一个品牌或者已经选择了品牌时，不显示品牌过滤
+             如果聚合出的品牌数量大于1，并且用户没有选择品牌的过滤条件时，才需要渲染
+             -->
             <div class="type-wrap logo" th:if="${response.brands != null && response.brands.size() > 1 && searchParam.brandId == null}">
                 <!-- 过滤名称写死，就是品牌 -->
                 <div class="fl key brand">品牌</div>
@@ -103,7 +105,7 @@
                 </div>
             </div>
             <!-- 分类过滤：只有一个分类或者已经选择了分类时，不显示分类过滤 -->
-            <div class="type-wrap" th:if="${response.categories != null && response.categories.size() > 1 && searchParam.cid == null}">
+            <div class="type-wrap" th:if="${response.categories != null && response.categories.size() > 1 && searchParam.categoryId == null}">
                 <!-- 过滤名称写死，就是分类 -->
                 <div class="fl key">分类</div>
                 <div class="fl value">
@@ -111,7 +113,7 @@
                         <!-- 遍历所有分类过滤条件 -->
                         <li th:each="category : *{categories}">
                             <!-- 展示分类名称，点击时把分类id拼接到地址栏 -->
-                            <a th:text="${category.name}" th:href="@{${location + '&cid=' + category.id}}">GSM（移动/联通2G）</a>
+                            <a th:text="${category.name}" th:href="@{${location + '&categoryId=' + category.id}}">GSM（移动/联通2G）</a>
                         </li>
                     </ul>
                 </div>
@@ -141,7 +143,7 @@
                 <div class="navbar-inner filter" >
                     <ul class="sui-nav">
                         <!-- 排序sort=0时，该li标签处于活性状态 -->
-                        <li th:class="${searchParam.sort == 0 ? 'active' : ''}">
+                        <li th:class="${searchParam.sort == 0 || searchParam.sort == null ? 'active' : ''}">
                             <!-- 点击综合时，地址栏的sort值替换为0 -->
                             <a th:href="@{${#strings.indexOf(location, '&sort=')} > 0 ? ${#strings.replace(location, '&sort=' + searchParam.sort, '&sort=0')} : ${location + '&sort=0'}}">综合</a>
                         </li>
@@ -182,7 +184,7 @@
                             <!-- 商品标题 -->
                             <div class="attr">
                                 <!-- 点击标题跳转到商品详情页，鼠标放在标题上展示副标题 -->
-                                <a target="_blank" th:href="@{http://item.gmall.com/{id}.html(id=${goods.skuId})}" th:title="${goods.subTitle}" th:utext="${goods.title}">Apple苹果iPhone
+                                <a target="_blank" th:href="@{http://item.gmall.com/{id}.html(id=${goods.skuId})}" th:title="${goods.subtitle}" th:utext="${goods.title}">Apple苹果iPhone
                                     6s (A1699)Apple苹果iPhone 6s (A1699)Apple苹果iPhone 6s (A1699)Apple苹果iPhone 6s
                                     (A1699)</a>
                             </div>
@@ -443,6 +445,7 @@
 </div>
 
 <script th:inline="javascript">
+<!--    反编码成中文-->
     let urlParams = decodeURI([[${#httpServletRequest.queryString}]]);
 
     function cancelProp(prop){

@@ -3,21 +3,20 @@ server:
 spring:
   cloud:
     nacos:
-      discovery: # 注册中心地址
+      discovery:
         server-addr: localhost:8848
     sentinel:
-      transport: # sentinel端口号
+      transport:
         dashboard: localhost:8080
-        port: 8719 # 和sentinel交互的端口号
-  zipkin: # 链路追踪
+        port: 8719
+  zipkin:
     base-url: http://localhost:9411
     sender:
-      type: web # 使用web的方式将链路追踪的消息传给zipkin
-    discovery-client-enabled: false # 链路追踪自己不需要追踪自己
+      type: web
+    discovery-client-enabled: false
   sleuth:
-    sampler: # 采集信息
-      probability: 1 # 采集率默认为0.1，1表示百分之百采集率
-  # 数据库的相关配置
+    sampler:
+      probability: 1
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://192.168.61.130:3306/guli_wms?useUnicode=true&characterEncoding=UTF-8&useSSL=false
@@ -25,16 +24,29 @@ spring:
     password: root
   redis:
     host: 192.168.61.130
-    port: 6379
-# redis相关配置
-# 基础springboot配置
-feign: # 远程调用
+  rabbitmq:
+    host: 192.168.61.130
+    virtual-host: /gmall
+    username: admin
+    password: 123456
+    listener:
+      simple:
+        prefetch: 1
+        concurrency: 4
+        acknowledge-mode: manual
+    publisher-confirm-type: correlated
+    publisher-returns: true
+feign:
   sentinel:
-    enabled: true # 开启feign的sentinel的支持
-# MP相关配置逆向工程
+    enabled: true
 mybatis-plus:
   mapper-locations: classpath:mapper/wms/**/*.xml
-  type-aliases-package: com.atguigu.gmall.wms.entity # 别名扫描
+  type-aliases-package: com.atguigu.gmall.wms.entity
   global-config:
     db-config:
-      id-type: auto # id策略默认是分布式  auto表示自增策略
+      id-type: auto
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  level:
+    com.atguigu.gmall.wms: debug

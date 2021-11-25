@@ -1,0 +1,36 @@
+server:
+  port: 18088
+spring:
+  cloud:
+    nacos:
+      discovery: # 注册中心地址
+        server-addr: localhost:8848
+    sentinel:
+      transport: # sentinel端口号
+        dashboard: localhost:8080
+        port: 8719 # 和sentinel交互的端口号
+  zipkin: # 链路追踪
+    base-url: http://localhost:9411
+    sender:
+      type: web # 使用web的方式将链路追踪的消息传给zipkin
+    discovery-client-enabled: false # 链路追踪自己不需要追踪自己
+  sleuth:
+    sampler: # 采集信息
+      probability: 1 # 采集率默认为0.1，1表示百分之百采集率
+  thymeleaf:
+    cache: false
+feign: # 远程调用
+  sentinel:
+    enabled: true # 开启feign的sentinel的支持
+logging:
+  level: # 日志输出级别
+    com.atguigu.gmall.item: info
+#Feign负载均衡配置 配置全局超时时间 毫秒单位
+ribbon:
+  ConnectTimeout: 50000 #请求连接的超时时间，默认时间为1秒
+  ReadTimeout: 50000 #请求处理的超时时间
+threadPool: # 最好放到nacos配置中心
+  corePoolSize: 100 # 核心线程数
+  maximumPoolSize: 500 # 最大可扩展线程数
+  keepAliveTime: 60 # 声明时间 单位秒
+  blockQueueSize: 1000 # 组合队列大小

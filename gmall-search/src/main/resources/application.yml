@@ -24,12 +24,22 @@ spring:
     default-property-inclusion: non_null # DSL语句中不包含空的字段
   thymeleaf:
     cache: false
+  rabbitmq:
+    host: 192.168.61.130
+    virtual-host: /gmall
+    username: admin
+    password: 123456
+    listener: # 监听器
+      simple:
+        prefetch: 1 # 配置能治多劳
+        concurrency: 1 # 配置并发线程
+        acknowledge-mode: manual # 配置消费者确认模式：手动确认
 feign: # 远程调用
   sentinel:
     enabled: true # 开启feign的sentinel的支持
 logging:
   level: # 日志输出级别
-    com.atguigu.gmall.seatvh: info
+    com.atguigu.gmall.searvh: info
 #Feign负载均衡配置 配置全局超时时间 毫秒单位
 ribbon:
   ConnectTimeout: 50000 #请求连接的超时时间，默认时间为1秒

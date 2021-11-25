@@ -1,0 +1,68 @@
+server:
+  port: 8888
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      routes:
+        - id: oms-route # 订单管理路由
+          uri: lb://oms-service
+          predicates:
+            - Path=/oms/**
+        - id: sms-route # 营销管理路由
+          uri: lb://sms-service
+          predicates:
+            - Path=/sms/**
+        - id: pms-route # 商品管理路由
+          uri: lb://pms-service
+          predicates:
+            - Path=/pms/**
+        - id: wms-route 仓库管理路由
+          uri: lb://wms-service
+          predicates:
+            - Path=/wms/**
+        - id: ums-route # 用户管理路由
+          uri: lb://ums-service
+          predicates:
+            - Path=/ums/** # 路径路由
+        - id: search-route # 用户管理路由
+          uri: lb://search-service
+          predicates:
+            - Host=search.gmall.com # 域名路由
+        # 为同步请求提供的
+        - id: index-route
+          uri: lb://index-service
+          predicates:
+            - Host=www.gmall.com , gmall.com # 域名路由
+          filters:
+            - Auth=/xxx # 要拦截的路径
+        # 为异步请求提供
+        - id: index-route2
+          uri: lb://index-service
+          predicates:
+            - Path=/index/**
+        - id: item-route
+          uri: lb://item-service
+          predicates:
+            - Host=item.gmall.com
+        - id: auth-route
+          uri: lb://auth-service
+          predicates:
+            - Host=auth.gmall.com , sso.gmall.com
+        - id: cart-route
+          uri: lb://cart-service
+          predicates:
+            - Host=cart.gmall.com
+        - id: order-route
+          uri: lb://order-service
+          predicates:
+            - Host=order.gmall.com
+          filters:
+            - Auth=/
+# 配置公钥和私钥
+auth:
+  jwt:
+    pubKeyPath: D:\recv\0325班\rsa\rsa.pub # 公钥
+    cookieName: GMALL-TOKEN # cookie

@@ -2,6 +2,7 @@ package com.atguigu.gmall.ums.controller;
 
 import java.util.List;
 
+import com.atguigu.gmall.ums.entity.UserEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.atguigu.gmall.ums.entity.UserEntity;
 import com.atguigu.gmall.ums.service.UserService;
 import com.atguigu.gmall.common.bean.PageResultVo;
 import com.atguigu.gmall.common.bean.ResponseVo;
@@ -33,6 +33,26 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping("query")
+    public ResponseVo<UserEntity> queryUser(@RequestParam("loginName")String loginName , @RequestParam("password") String password){
+        UserEntity userEntity = this.userService.queryUser(loginName,password);
+        return ResponseVo.ok(userEntity);
+    }
+
+    @PostMapping("register")
+    public ResponseVo register(UserEntity userEntity,@RequestParam("code") String code){
+        this.userService.register(userEntity,code);
+        return ResponseVo.ok();
+    }
+
+
+
+    @GetMapping("check/{data}/{type}")
+    public ResponseVo<Boolean> checkData(@PathVariable("data") String data,@PathVariable("type") Integer type){
+        Boolean flag = this.userService.checkData(data,type);
+        return ResponseVo.ok(flag);
+    }
 
     /**
      * 列表

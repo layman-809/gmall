@@ -23,9 +23,20 @@ spring:
     url: jdbc:mysql://192.168.61.130:3306/guli_oms?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
     password: root
+  rabbitmq:
+    host: 192.168.61.130
+    virtual-host: /gmall
+    username: admin
+    password: 123456
+    listener:
+      simple:
+        prefetch: 1
+        concurrency: 4
+        acknowledge-mode: manual
+    publisher-confirm-type: correlated
+    publisher-returns: true
   redis:
     host: 192.168.61.130
-    port: 6379
 # redis相关配置
 # 基础springboot配置
 feign: # 远程调用
@@ -38,3 +49,6 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto # id策略默认是分布式  auto表示自增策略
+logging:
+  level:
+    com.atguigu.gmall.oms: debug
